@@ -1,7 +1,9 @@
 package ee.taltech.inbankbackend.endpoint;
 
+import ee.taltech.inbankbackend.DTOs.DecisionRequest;
+import ee.taltech.inbankbackend.DTOs.DecisionResponse;
 import ee.taltech.inbankbackend.exceptions.*;
-import ee.taltech.inbankbackend.service.Decision;
+import ee.taltech.inbankbackend.dataobjects.Decision;
 import ee.taltech.inbankbackend.service.DecisionEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

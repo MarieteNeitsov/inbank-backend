@@ -1,14 +1,11 @@
 package ee.taltech.inbankbackend.service;
 
-import com.github.vladislavgoltjajev.personalcode.exception.PersonalCodeException;
-import com.github.vladislavgoltjajev.personalcode.locale.estonia.EstonianPersonalCodeParser;
 import com.github.vladislavgoltjajev.personalcode.locale.estonia.EstonianPersonalCodeValidator;
 import ee.taltech.inbankbackend.config.DecisionEngineConstants;
+import ee.taltech.inbankbackend.dataobjects.Decision;
 import ee.taltech.inbankbackend.exceptions.*;
 import ee.taltech.inbankbackend.validators.InputAgeValidator;
 import org.springframework.stereotype.Service;
-
-import java.time.Period;
 
 /**
  * A service class that provides a method for calculating an approved loan amount and period for a customer.
@@ -38,7 +35,7 @@ public class DecisionEngine {
      * @throws InvalidLoanPeriodException If the requested loan period is invalid
      * @throws NoValidLoanException If there is no valid loan found for the given ID code, loan amount and loan period
      */
-    public Decision calculateApprovedLoan(String personalCode, Long loanAmount, int loanPeriod,String countryCode)
+    public Decision calculateApprovedLoan(String personalCode, Long loanAmount, int loanPeriod, String countryCode)
             throws InvalidPersonalCodeException, InvalidLoanAmountException, InvalidLoanPeriodException,
             NoValidLoanException, InvalidAgeException{
         try {

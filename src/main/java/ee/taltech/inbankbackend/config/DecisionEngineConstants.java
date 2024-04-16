@@ -11,5 +11,8 @@ public class DecisionEngineConstants {
     public static final Integer SEGMENT_1_CREDIT_MODIFIER = 100;
     public static final Integer SEGMENT_2_CREDIT_MODIFIER = 300;
     public static final Integer SEGMENT_3_CREDIT_MODIFIER = 1000;
-    public static final Integer  maxLoanPeriodInYears = 5;
+    public static final Integer  MAX_LOAN_PERIOD_IN_YEARS = 5;
+    public static final Integer LIFE_EXPECTANCY_EST = 82;
+    public static final Integer LIFE_EXPECTANCY_LV = 73;
+    public static final Integer LIFE_EXPECTANCY_LT = 72;
 }
