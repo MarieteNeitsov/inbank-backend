@@ -19,8 +19,8 @@ import java.time.Period;
 public class DecisionEngine {
 
     // Used to check for the validity of the presented ID code.
-    private final EstonianPersonalCodeValidator validator = new EstonianPersonalCodeValidator();
-    private final EstonianPersonalCodeParser parser = new EstonianPersonalCodeParser();
+    private final EstonianPersonalCodeValidator personalCodeValidator = new EstonianPersonalCodeValidator();
+    private final InputAgeValidator ageValidator = new InputAgeValidator();
     private int creditModifier = 0;
 
     /**
@@ -116,10 +116,10 @@ public class DecisionEngine {
     private void verifyInputs(String personalCode, Long loanAmount, int loanPeriod,String countryCode)
             throws InvalidPersonalCodeException, InvalidLoanAmountException, InvalidLoanPeriodException, InvalidAgeException {
 
-        if (!validator.isValid(personalCode)) {
+        if (!personalCodeValidator.isValid(personalCode)) {
             throw new InvalidPersonalCodeException("Invalid personal ID code!");
         }
-        if(!InputAgeValidator.isAgeSuitable(personalCode,countryCode)){
+        if(!ageValidator.isAgeSuitable(personalCode,countryCode)){
             throw new InvalidAgeException("Age is not valid to apply for a loan!");
         }
         if (!(DecisionEngineConstants.MINIMUM_LOAN_AMOUNT <= loanAmount)

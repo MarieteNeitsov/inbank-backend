@@ -9,7 +9,7 @@ import java.time.Period;
 
 public class InputAgeValidator {
 
-    public static Boolean isAgeSuitable(String personalCode, String countryCode) throws InvalidAgeException {
+    public Boolean isAgeSuitable(String personalCode, String countryCode) throws InvalidAgeException {
         Period age = getAge(personalCode);
         int ageInYears = age.getYears();
         if (ageInYears <18){
@@ -23,7 +23,7 @@ public class InputAgeValidator {
             default -> false;
         };
     }
-    private Period getAge(String personalCode) throws InvalidAgeException {
+    private static Period getAge(String personalCode) throws InvalidAgeException {
         int year = getYear(personalCode);
         int month = getMonth(personalCode);
         int day = getDay(personalCode);
@@ -31,15 +31,15 @@ public class InputAgeValidator {
         return Period.between(birthDate, LocalDate.now());
     }
 
-    private int getDay(String personalCode) {
+    private static int getDay(String personalCode) {
         return Integer.parseInt(personalCode.substring(5,7));
     }
 
-    private int getMonth(String personalCode) {
+    private static int getMonth(String personalCode) {
         return Integer.parseInt(personalCode.substring(3,5));
     }
 
-    private int getYear(String personalCode) throws InvalidAgeException {
+    private static int getYear(String personalCode) throws InvalidAgeException {
         String yearEndNumbers = personalCode.substring(1,3);
         String centuryAndGender = personalCode.substring(0,1);
         String yearStartNumbers;
