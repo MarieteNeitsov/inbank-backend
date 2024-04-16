@@ -5,6 +5,7 @@ import com.github.vladislavgoltjajev.personalcode.locale.estonia.EstonianPersona
 import com.github.vladislavgoltjajev.personalcode.locale.estonia.EstonianPersonalCodeValidator;
 import ee.taltech.inbankbackend.config.DecisionEngineConstants;
 import ee.taltech.inbankbackend.exceptions.*;
+import ee.taltech.inbankbackend.validators.InputAgeValidator;
 import org.springframework.stereotype.Service;
 
 import java.time.Period;
@@ -75,12 +76,6 @@ public class DecisionEngine {
     private int highestValidLoanAmount(int loanPeriod) {
         return creditModifier * loanPeriod;
     }
-    //Scoring algorithm. For calculating credit score, a really primitive algorithm should be implemented.
-    //You need to divide the credit modifier with the loan amount and multiply the result with the loan
-    //period in months.
-    //If the result is less than 1, then we would not approve such a sum.
-    //If the result is larger or equal than 1 then we would approve this sum.
-    //credit score = (credit modifier / loan amount) * loan period
 
 
     /**
@@ -119,12 +114,12 @@ public class DecisionEngine {
      * @throws InvalidLoanPeriodException If the requested loan period is invalid
      */
     private void verifyInputs(String personalCode, Long loanAmount, int loanPeriod,String countryCode)
-            throws InvalidPersonalCodeException, InvalidLoanAmountException, InvalidLoanPeriodException, PersonalCodeException, InvalidAgeException {
+            throws InvalidPersonalCodeException, InvalidLoanAmountException, InvalidLoanPeriodException, InvalidAgeException {
 
         if (!validator.isValid(personalCode)) {
             throw new InvalidPersonalCodeException("Invalid personal ID code!");
         }
-        if(!isAgeSuitable(personalCode,countryCode)){
+        if(!InputAgeValidator.isAgeSuitable(personalCode,countryCode)){
             throw new InvalidAgeException("Age is not valid to apply for a loan!");
         }
         if (!(DecisionEngineConstants.MINIMUM_LOAN_AMOUNT <= loanAmount)
@@ -138,18 +133,5 @@ public class DecisionEngine {
 
     }
 
-    private Boolean isAgeSuitable(String personalCode,String countryCode) throws PersonalCodeException {
-        final int maxLoanPeriodInYears = 5;
-        Period age = parser.getAge(personalCode);
-        int ageInYears = age.getYears();
-        if (ageInYears <18){
-            return false;
-        }
-        return switch (countryCode) {
-            case "EE" -> (82 - maxLoanPeriodInYears) > ageInYears;
-            case "LV"-> (74 - maxLoanPeriodInYears) > ageInYears;
-            case "LT" -> (72 - maxLoanPeriodInYears) > ageInYears;
-            default -> false;
-        };
-    }
+
 }
