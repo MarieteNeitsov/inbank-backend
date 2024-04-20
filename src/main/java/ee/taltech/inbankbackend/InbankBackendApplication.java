@@ -13,11 +13,12 @@ public class InbankBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(InbankBackendApplication.class, args);
         EstonianPersonalCodeGenerator generator = new EstonianPersonalCodeGenerator();
-        String personalCode = generator.generateRandomPersonalCode();
-        System.out.println(personalCode);
-        LocalDate dateOfBirth = LocalDate.of(2024, 4, 4);
-        Period p =Period.between(dateOfBirth, LocalDate.now());
-        System.out.println(p.getYears());
+        for (int i = 0; i < 10; i++) {
+            String personalCode = generator.generateRandomPersonalCode(); System.out.println(personalCode);
+        }
+
+
+
     }
 
 }

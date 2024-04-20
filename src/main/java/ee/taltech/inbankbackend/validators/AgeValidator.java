@@ -5,26 +5,35 @@ import ee.taltech.inbankbackend.exceptions.InvalidAgeException;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class InputAgeValidator {
 
-    public Boolean isAgeSuitable(String personalCode, String countryCode) throws InvalidAgeException {
+public class AgeValidator{
+
+    public static Boolean isAgeValid(String personalCode,String countryCode) throws InvalidAgeException {
 
         int age = getAge(personalCode);
         LocalDate birthDate = getBirthDate(personalCode);
+
+        if(birthDate.isAfter(LocalDate.now())){
+           throw new InvalidAgeException("Birthdate is in the future");
+        }
         if (age <18 ){
             return false;
         }
-        if(birthDate.isAfter(LocalDate.now())){
-            throw new InvalidAgeException("Birthdate is in the future");
-        }
+        return isAgeWithinCountryLifeExpectancy(countryCode, age);
+    }
 
+    private static Boolean isAgeWithinCountryLifeExpectancy(String countryCode, int age) {
         return switch (countryCode) {
-            case "EE" -> (DecisionEngineConstants.LIFE_EXPECTANCY_EST - DecisionEngineConstants.MAX_LOAN_PERIOD_IN_YEARS) > age;
-            case "LV"-> (DecisionEngineConstants.LIFE_EXPECTANCY_LV - DecisionEngineConstants.MAX_LOAN_PERIOD_IN_YEARS) > age;
-            case "LT" -> (DecisionEngineConstants.LIFE_EXPECTANCY_LT - DecisionEngineConstants.MAX_LOAN_PERIOD_IN_YEARS) > age;
-            default -> false;
+            case "EE" ->
+                    (DecisionEngineConstants.LIFE_EXPECTANCY_EST - DecisionEngineConstants.MAX_LOAN_PERIOD_IN_YEARS) > age;
+            case "LV" ->
+                    (DecisionEngineConstants.LIFE_EXPECTANCY_LV - DecisionEngineConstants.MAX_LOAN_PERIOD_IN_YEARS) > age;
+            case "LT" ->
+                    (DecisionEngineConstants.LIFE_EXPECTANCY_LT - DecisionEngineConstants.MAX_LOAN_PERIOD_IN_YEARS) > age;
+            default -> false; // since we are implementing only the baltic scope
         };
     }
+
     private static int getAge(String personalCode) throws InvalidAgeException {
         return Period.between(getBirthDate(personalCode), LocalDate.now()).getYears();
     }
@@ -57,6 +66,5 @@ public class InputAgeValidator {
 
         return Integer.parseInt(yearStartNumbers + yearEndNumbers);
     }
-
 
 }
