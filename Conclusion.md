@@ -29,6 +29,7 @@
 - The requirements mentioned that a valid maximum loan amount should be shown even if the requested amount is smaller than the maximum. The implementation right now does not show the maximum valid loan amount when the user requests for a smaller amount.
 - The UI code in the build method of LoanForm is quite long and could be broken up into smaller more manageable and reusable widgets.
 - Loan period slider uses 40 divisions but it would be more convenient for the user if the slider had 48 divisions so the loan period could be selectable in increments of 1 month.
+- A request to the endpoint is being made every time the slider is dragged to its desired value. This could lead to a large number of requests being made to the server if the user drags the slider frequently.It could be optimized by only making the request when the user submits the form.
 - The _submitForm method could be refactored to improve readability and maintainability. Currently, this method is responsible for validating the form, making the API request, and updating the state. These responsibilities could be separated into different methods.
 
 ## Most important shortcoming
